@@ -8,8 +8,9 @@
       <th>Name</th>
       <th>Status</th>
       <th>Label</th>
+      <th>Created</th>
       <th>Limit</th>
-      <th>Title</th>
+      <th>Content</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -20,8 +21,9 @@
         <td><%= task.name %></td>
         <td><%= task.status %></td>
         <td><%= task.label %></td>
+        <td><%= task.created_at.strftime("%Y-%m-%d") %></td>
         <td><%= task.limit %></td>
-        <td><%= task.title %></td>
+        <td><%= task.content %></td>
         <td><%= link_to 'Show', task %></td>
         <td><%= link_to 'Edit', edit_task_path(task) %></td>
         <td><%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' } %></td>
