@@ -10,15 +10,20 @@
 ラベルの仕様がよくわからないので現在はtaskのカラム（label)として設定しています。
 仕様が膨らんだときは、labelを別テーブルとして再設定。
 
-- user table
-  - id
-  - name[string]
-  - admin[boolean]
 
-- task table
-  - id
-  - user_id(foregin_key)
-  - name[string]
-  - status[string]
-  - label[string]
-  - limit[date]
+user table
+|column_name|type|
+|:---:|:---:|
+|id||
+|name|string|
+|admin|boolean|
+
+task table
+|column_name|type|
+|:---:|:---:|
+|id||
+|user_id|foregin_key|
+|name|string|
+|status|string|
+|label|string|
+|limit|date|
