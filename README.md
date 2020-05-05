@@ -11,14 +11,14 @@
 仕様が膨らんだときは、labelを別テーブルとして再設定。
 
 - user table
--- id
--- name[string]
--- admin[boolean]
+  - id
+  - name[string]
+  - admin[boolean]
 
 - task table
--- id
--- user_id(foregin_key)
--- name[string]
--- status[string]
--- label[string]
--- limit[date]
+  - id
+  - user_id(foregin_key)
+  - name[string]
+  - status[string]
+  - label[string]
+  - limit[date]
