@@ -1,9 +1,11 @@
 require 'capybara/rspec'
 RSpec.configure do |config|
-  config.before(:each, type: :system) do
-    driven_by(:selenium_chrome)
+  #config.before(:each, type: :system) do
+  #  driven_by(:selenium_chrome)
+  # end
+  config.before(:each) do |example|
+    driven_by :selenium, using: :headless_chrome, screen_size: [1400, 1400], options: { args: ['no-sandbox'] } if example.metadata[:type] == :system
   end
-
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
