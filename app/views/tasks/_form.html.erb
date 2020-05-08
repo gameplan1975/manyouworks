@@ -18,7 +18,7 @@
 
   <div class="field">
     <%= form.label :label %>
-    <%= form.text_field :label %>
+    <%= form.select :label,["labelA","labelB","labelC"] %>
   </div>
 
   <div class="field">
@@ -28,7 +28,7 @@
 
   <div class="field">
     <%= form.label :status %>
-    <%= form.text_field :status %>
+    <%= form.select :status,["未着手","着手","完了"] %>
   </div>
 
   <div class="field">
