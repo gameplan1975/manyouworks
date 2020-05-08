@@ -2,7 +2,7 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
 
   def index
-    @tasks = Task.order(params[:sort]).page(params[:page]).per(5)
+    @tasks = Task.search(params[:search]).order(params[:sort]).page(params[:page]).per(5)
   end
 
   def show
@@ -38,15 +38,6 @@ class TasksController < ApplicationController
     redirect_to tasks_url, notice: 'Task was successfully destroyed.'
   end
     
-  def search
-    @user_or_task = params[:option]
-    if @user_or_task == "1"
-      @users = User.search(params[:search], @user_or_task)
-    else
-      @tasks = Task.search(params[:search], @user_or_task)
-    end
-  end
-
   private
     def set_task
       @task = Task.find(params[:id])
