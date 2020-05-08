@@ -2,9 +2,7 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
 
   def index
-    #@tasks = Task.page(params[:page]).per(5)
-    @pretasks = Task.order(params[:sort])
-    @tasks = @pretasks.page(params[:page]).per(5)
+    @tasks = Task.order(params[:sort]).page(params[:page]).per(5)
   end
 
   def show
@@ -55,6 +53,6 @@ class TasksController < ApplicationController
     end
 
     def task_params
-      params.require(:task).permit(:name, :status, :label, :limit, :content, :created_at)
+      params.require(:task).permit(:name, :status, :label, :limit, :content, :created_at, :priority)
     end
 end

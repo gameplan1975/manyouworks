@@ -32,6 +32,11 @@
   </div>
 
   <div class="field">
+    <%= form.label :priority %>
+    <%= form.select :priority,["1.高","2.中","3.低"] %>
+  </div>
+
+  <div class="field">
     <%= form.label :limit %>
     <%= form.date_select :limit %>
   </div>
