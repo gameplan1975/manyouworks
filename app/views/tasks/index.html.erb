@@ -1,12 +1,12 @@
 <p id="notice"><%= notice %></p>
 <h1>Tasks</h1>
 <!--ここから検索フォーム-->
-<%= form_tag(tasks_path, :method => "get") do %>  
-  <p>name:
-    <%= text_field_tag :search, params[:search] %>
-    <%= submit_tag "Search", :name => nil %>  
-  </p>  
-<% end %> <br>
+<div>
+  <%= form_with(url: tasks_path, method: :get, local: true) do |f| %>
+    <%= f.text_field :search %>
+    <%= f.submit "search" %>
+  <% end %>
+</div>
 
 <!--ここからデータの表示-->
 <% def linkage(column, direction) %>
