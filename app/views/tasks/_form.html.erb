@@ -33,7 +33,7 @@
 
   <div class="field">
     <%= form.label :priority %>
-    <%= form.select :priority,["1.高","2.中","3.低"] %>
+    <%= form.select :priority, Task.priorities.keys %>
   </div>
 
   <div class="field">

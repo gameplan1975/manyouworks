@@ -3,7 +3,7 @@
 <!--ここから検索フォーム-->
 <div>
   <%= form_with(url: tasks_path, method: :get, local: true) do |f| %>
-    <%= f.text_field :search %>
+    <%= f.text_field :name %>
     <%= f.submit "search" %>
   <% end %>
 </div>

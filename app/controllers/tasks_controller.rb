@@ -2,7 +2,8 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
 
   def index
-    @tasks = Task.search(params[:search]).order(params[:sort]).page(params[:page]).per(5)
+    @search_params = task_search_params
+    @tasks = Task.search(params[:name]).order(params[:sort]).page(params[:page]).per(5)
   end
 
   def show
@@ -45,5 +46,9 @@ class TasksController < ApplicationController
 
     def task_params
       params.require(:task).permit(:name, :status, :label, :limit, :content, :created_at, :priority)
+    end
+
+    def task_search_params
+      params.fetch(:search, {}).permit(:name, :priority)
     end
 end
