@@ -1,10 +1,19 @@
 <p id="notice"><%= notice %></p>
 <h1>Tasks</h1>
 <!--ここから検索フォーム-->
-<div>
-  <%= form_with(url: tasks_path, method: :get, local: true) do |f| %>
-    <%= f.text_field :name %>
-    <%= f.submit "search" %>
+<div class="search-form">
+  <%= form_with(scope: :search, url: tasks_path, method: :get, local: true) do |f| %>
+    <div class="field">
+      <%= f.label(:name, Task.human_attribute_name(:name)) %>
+      <%= f.text_field :name, value: @search_params[:name] %>
+    </div>
+    <div class="field">
+      <%= f.label(:status, Task.human_attribute_name(:status)) %>
+      <%= f.select(:status,["未着手","着手","完了"] ,value: @search_params[:status])%>
+    </div>
+    <div class="actions">
+      <%= f.submit "Search" %>
+    </div>
   <% end %>
 </div>
 

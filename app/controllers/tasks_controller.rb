@@ -3,7 +3,8 @@ class TasksController < ApplicationController
 
   def index
     @search_params = task_search_params
-    @tasks = Task.search(params[:name]).order(params[:sort]).page(params[:page]).per(5)
+    #@tasks = Task.search(params[:name]).order(params[:sort]).page(params[:page]).per(5)
+    @tasks = Task.search(@search_params).order(params[:sort]).page(params[:page]).per(5)
   end
 
   def show
@@ -49,6 +50,6 @@ class TasksController < ApplicationController
     end
 
     def task_search_params
-      params.fetch(:search, {}).permit(:name, :priority)
+      params.fetch(:search, {}).permit(:name, :status)
     end
 end
