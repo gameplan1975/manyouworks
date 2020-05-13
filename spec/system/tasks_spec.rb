@@ -82,7 +82,14 @@ RSpec.describe 'Tasks', type: :system do
         expect(page).not_to have_content "test05"
         expect(page).not_to have_content "test06"
       end
-      it "名前（test01)で絞り込んだタスクのみ表示されること" do
+      it "名前（test01)で絞り込んだタスクが表示されること" do
+        visit new_task_path
+        fill_in "Name", with: "test01"
+        fill_in "Content", with: "content07"
+        fill_in "Task limit", with: "05-05-2020"
+        select "high", from: "Priority"
+        select "Complete", from: "Status"
+        click_button "登録する"  
         visit tasks_path
         fill_in "Name", with: "test01"
         click_button "Search"
@@ -92,6 +99,27 @@ RSpec.describe 'Tasks', type: :system do
         expect(page).not_to have_content "test04"
         expect(page).not_to have_content "test05"
         expect(page).not_to have_content "test06"
+        expect(page).to have_content "content07"
+      end
+      it "名前（test01)とstatus(Not Started)で絞り込んだタスクのみ表示されること" do
+        visit new_task_path
+        fill_in "Name", with: "test01"
+        fill_in "Content", with: "content07"
+        fill_in "Task limit", with: "05-05-2020"
+        select "high", from: "Priority"
+        select "Complete", from: "Status"
+        click_button "登録する"  
+        visit tasks_path
+        fill_in "Name", with: "test01"
+        select "Not Started", from: "Status"
+        click_button "Search"
+        expect(page).to have_content "test01"
+        expect(page).not_to have_content "test02"
+        expect(page).not_to have_content "test03"
+        expect(page).not_to have_content "test04"
+        expect(page).not_to have_content "test05"
+        expect(page).not_to have_content "test06"
+        expect(page).not_to have_content "content07"
       end
     end
   end
