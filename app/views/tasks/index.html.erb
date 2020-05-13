@@ -9,7 +9,7 @@
     </div>
     <div class="field">
       <%= f.label(:status, Task.human_attribute_name(:status)) %>
-      <%= f.select(:status,["未着手","着手","完了"] ,value: @search_params[:status])%>
+      <%= f.select(:status,["","Not Started","Undertake","Complete"] ,value: @search_params[:status])%>
     </div>
     <div class="actions">
       <%= f.submit "Search" %>
