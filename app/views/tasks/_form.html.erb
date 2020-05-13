@@ -37,8 +37,10 @@
   </div>
 
   <div class="field">
-    <%= form.label :limit %>
-    <%= form.date_select :limit %>
+    <%= form.label :task_limit %>
+    <%= form.date_field :task_limit, value: Time.now.strftime("%Y年%m月%d日"),
+                                  class: 'form-control'%><br>
+
   </div>
 
   <div class="actions">
