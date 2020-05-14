@@ -28,7 +28,7 @@
 <table>
   <thead>
     <tr>
-      <th>Priority <%= linkage("priority","asc") %><%= linkage("priority","desc") %></th>
+      <th class = "priority-cell">Priority<%= link_to "▲", sort: "priority asc", class:"sort01" %><%= link_to "▼", sort: "priority desc", class:"sort02" %></th>
       <th>Name <%= linkage("name","asc") %><%= linkage("name","desc") %></th>
       <th>Status <%= linkage("status","asc") %><%= linkage("status","desc") %></th>
       <th>Label <%= linkage("label","asc") %><%= linkage("label","desc") %></th>

@@ -122,5 +122,29 @@ RSpec.describe 'Tasks', type: :system do
         expect(page).not_to have_content "content07"
       end
     end
+    context "ソートを行った場合" do
+      it "▲でpriorityの昇順でsortされること" do
+        visit tasks_path
+        within ".priority-cell" do
+          click_link '▲'
+        end
+        expect(page).to have_content "high"
+        #expect(all("tbody tr")[0]).to have_content "high"
+        #expect(all("tbody tr")[1]).to have_content "high"
+        #expect(all("tbody tr")[2]).to have_content "high"
+        #expect(all("tbody tr")[3]).to have_content "middle"
+      end
+      it "  ▼でpriorityの降順でsortされること" do
+        visit tasks_path
+        within ".priority-cell" do
+          click_link '▼'
+        end
+        expect(page).to have_content "low"
+        #expect(all("tbody tr")[0]).to have_content "low"
+        #expect(all("tbody tr")[1]).to have_content "middle"
+        #expect(all("tbody tr")[2]).to have_content "middle"
+        #expect(all("tbody tr")[3]).to have_content "high"
+      end
+    end
   end
 end
