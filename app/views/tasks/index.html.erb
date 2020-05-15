@@ -1,16 +1,40 @@
 <p id="notice"><%= notice %></p>
-
 <h1>Tasks</h1>
+<!--ここから検索フォーム-->
+<div class="search-form">
+  <%= form_with(scope: :search, url: tasks_path, method: :get, local: true) do |f| %>
+    <div class="field">
+      <%= f.label(:name, Task.human_attribute_name(:name)) %>
+      <%= f.text_field :name, value: @search_params[:name] %>
+    </div>
+    <div class="field">
+      <%= f.label(:status, Task.human_attribute_name(:status)) %>
+      <%= f.select(:status,["","Not Started","Undertake","Complete"] ,value: @search_params[:status])%>
+    </div>
+    <div class="actions">
+      <%= f.submit "Search" %>
+    </div>
+  <% end %>
+</div>
 
-<table>
+<!--ここからデータの表示-->
+<% def linkage(column, direction) %>
+<% arrow = "▲" %>
+<% if direction == "desc" %>
+<% arrow = "▼" %>
+<% end %>
+  <%= link_to arrow, sort: column + " " + direction %>
+<% end %>
+<table class="table" >
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Status</th>
-      <th>Label</th>
-      <th>Created</th>
-      <th>Limit</th>
-      <th>Content</th>
+      <th class = "priority-cell">Priority<%= link_to "▲", sort: "priority asc", class:"sort01" %><%= link_to "▼", sort: "priority desc", class:"sort02" %></th>
+      <th>Name <%= linkage("name","asc") %><%= linkage("name","desc") %></th>
+      <th>Status <%= linkage("status","asc") %><%= linkage("status","desc") %></th>
+      <th>Label <%= linkage("label","asc") %><%= linkage("label","desc") %></th>
+      <th>Created <%= linkage("created_at","asc") %><%= linkage("created_at","desc") %></th>
+      <th>Limit <%= linkage("task_limit","asc") %><%= linkage("task_limit","desc") %></th>
+      <th>Content <%= linkage("content","asc") %><%= linkage("content","desc") %></th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -18,11 +42,12 @@
   <tbody>
     <% @tasks.each do |task| %>
       <tr>
+        <td><%= task.priority %></td>
         <td><%= task.name %></td>
         <td><%= task.status %></td>
         <td><%= task.label %></td>
         <td><%= task.created_at.strftime("%Y-%m-%d") %></td>
-        <td><%= task.limit %></td>
+        <td><%= task.task_limit.strftime("%Y-%m-%d") %></td>
         <td><%= task.content %></td>
         <td><%= link_to 'Show', task %></td>
         <td><%= link_to 'Edit', edit_task_path(task) %></td>
@@ -31,7 +56,6 @@
     <% end %>
   </tbody>
 </table>
-
+<%= paginate @tasks %>
 <br>
-
 <%= link_to 'New Task', new_task_path %>
