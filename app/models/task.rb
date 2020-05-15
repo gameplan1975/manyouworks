@@ -2,6 +2,7 @@ class Task < ApplicationRecord
   enum priority: { high: 0, middle: 1, low: 2, other:3 }
   validates :name, presence: true
   validates :content, presence: true
+  belongs_to :user
   
   scope :search, -> (search_params) do
     return if search_params.blank?
