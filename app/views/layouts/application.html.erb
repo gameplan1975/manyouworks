@@ -11,8 +11,13 @@
 
   <body>
     <% if logged_in? %>
-      <%= link_to "Profile", user_path(current_user.id) %>
+      <p>
+      <%= link_to current_user.name, user_path(current_user.id) %>  
+      <% if current_user.admin? %>
+        <%= "(Administrator) " %>
+      <% end %> |
       <%= link_to "Logout", session_path(current_user.id), method: :delete %>
+      </p>
     <% else %>
       <%= link_to "Sign up", new_user_path %>
       <%= link_to "Login", new_session_path %>
