@@ -6,6 +6,8 @@ class UsersController < ApplicationController
   end
 
   def show
+    @search_params = task_search_params
+    @tasks = Task.search(@search_params).order(params[:sort]).page(params[:page]).per(5)
   end
 
   def new
@@ -45,5 +47,13 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:name, :admin, :password, :password_confirmation, :email)
+  end
+
+  def task_params
+    params.require(:task).permit(:name, :status, :label, :task_limit, :content, :created_at, :priority, :user_id)
+  end
+
+  def task_search_params
+    params.fetch(:search, {}).permit(:name, :status)
   end
 end
