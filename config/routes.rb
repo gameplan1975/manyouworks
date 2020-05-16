@@ -5,4 +5,7 @@ Rails.application.routes.draw do
   resources :sessions, only: [:new, :create, :destroy]
   root to: "tasks#index"
   get "search" => "tasks#search"
+  namespace :admin do
+    resources :users
+  end
 end

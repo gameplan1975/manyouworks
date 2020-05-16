@@ -1,6 +1,6 @@
-class UsersController < ApplicationController
+class Admin::UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :user_check, only:[:show, :edit, :destroy]
+  before_action :admin_user_check
 
   def index
     @users = User.all
@@ -23,7 +23,7 @@ class UsersController < ApplicationController
 
     if @user.save
       session[:user_id] = @user.id
-      redirect_to @user, notice: 'User was successfully created.'
+      redirect_to [:admin, @user], notice: 'User was successfully created.'
     else
       render :new
     end
@@ -31,7 +31,7 @@ class UsersController < ApplicationController
 
   def update
     if @user.update(user_params)
-      redirect_to @user, notice: 'User was successfully updated.'
+      redirect_to [:admin, @user], notice: 'User was successfully updated.'
     else
       render :edit
     end
@@ -39,7 +39,7 @@ class UsersController < ApplicationController
 
   def destroy
     @user.destroy
-    redirect_to users_url, notice: 'User was successfully destroyed.'
+    redirect_to admin_users_url, notice: 'User was successfully destroyed.'
   end
 
   private
@@ -59,9 +59,9 @@ class UsersController < ApplicationController
     params.fetch(:search, {}).permit(:name, :status)
   end
 
-  def user_check
-    if current_user.id != @user.id && current_user.admin == false
-      redirect_to users_url, notice: "You could not access this page."
+  def admin_user_check
+    if current_user.admin == false
+      redirect_to root_path, notice: "You could not access this page."
     end
   end
 end
