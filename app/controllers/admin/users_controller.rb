@@ -20,7 +20,10 @@ class Admin::UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-
+    #最初の１人は管理者になる
+    if @user.id == 0
+      @user.admin = true
+    end
     if @user.save
       session[:user_id] = @user.id
       redirect_to [:admin, @user], notice: 'User was successfully created.'
@@ -38,6 +41,7 @@ class Admin::UsersController < ApplicationController
   end
 
   def destroy
+    admin_number = 1
     @user.destroy
     redirect_to admin_users_url, notice: 'User was successfully destroyed.'
   end
@@ -60,8 +64,8 @@ class Admin::UsersController < ApplicationController
   end
 
   def admin_user_check
-    if current_user.admin == false
-      redirect_to root_path, notice: "You are not aministrator."
+    if current_user == nil ||current_user.admin == false
+      redirect_to root_path, notice: "You are not administrator."
     end
   end
 end
