@@ -1,8 +1,7 @@
 <p id="notice"><%= notice %></p>
 <p>
-  <strong>Name:</strong>
-  <%= @user.name %>
-</p>
+
+<h1><%= @user.name %>'s Page</h1>
 <p>
   <strong>Admin:</strong>
   <%= @user.admin %>
@@ -12,9 +11,9 @@
   <%= @user.email %>
 </p>
 <%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+<%= link_to 'Back', users_path %> |
+<%= link_to 'New Task', new_task_path %>
 <br><br>
-<h1>Tasks</h1>
 <!--ここから検索フォーム-->
 <div class="search-form">
   <%= form_with(scope: :search, url: tasks_path, method: :get, local: true) do |f| %>

@@ -1,4 +1,5 @@
 class TasksController < ApplicationController
+  before_action :check_login?
   before_action :set_task, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -51,5 +52,11 @@ class TasksController < ApplicationController
 
     def task_search_params
       params.fetch(:search, {}).permit(:name, :status)
+    end
+
+    def check_login?
+      unless current_user.presence
+        redirect_to new_session_path, notice: 'You should log in.'
+      end
     end
 end

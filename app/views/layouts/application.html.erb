@@ -19,8 +19,10 @@
       <%= link_to "Logout", session_path(current_user.id), method: :delete %>
       </p>
     <% else %>
-      <%= link_to "Sign up", new_user_path %>
+      <p>
+      <%= link_to "Sign up", new_user_path %> |
       <%= link_to "Login", new_session_path %>
+      </p>
     <% end %>
     <%= yield %>
   </body>

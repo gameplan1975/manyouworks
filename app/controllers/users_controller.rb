@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :user_check, only:[:show, :edit, :destroy]
 
   def index
     @users = User.all
@@ -21,6 +22,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
+      session[:user_id] = @user.id
       redirect_to @user, notice: 'User was successfully created.'
     else
       render :new
@@ -55,5 +57,11 @@ class UsersController < ApplicationController
 
   def task_search_params
     params.fetch(:search, {}).permit(:name, :status)
+  end
+
+  def user_check
+    if current_user.id != @user.id && current_user.admin == false
+      redirect_to users_url, notice: "You could not access this page."
+    end
   end
 end
