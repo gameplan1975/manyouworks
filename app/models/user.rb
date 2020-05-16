@@ -6,4 +6,11 @@ class User < ApplicationRecord
   uniqueness: true
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }
+  def task_count
+    if tasks.loaded?
+      tasks.size
+    else
+      tasks.count
+    end
+  end
 end

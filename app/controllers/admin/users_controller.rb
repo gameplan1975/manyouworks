@@ -61,7 +61,7 @@ class Admin::UsersController < ApplicationController
 
   def admin_user_check
     if current_user.admin == false
-      redirect_to root_path, notice: "You could not access this page."
+      redirect_to root_path, notice: "You are not aministrator."
     end
   end
 end
