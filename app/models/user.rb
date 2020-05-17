@@ -3,12 +3,12 @@ class User < ApplicationRecord
   before_update :admin_presence
   has_many :tasks, dependent: :destroy
   validates :name,  presence: true, length: { maximum: 30 }
+  validates :password, presence: true, length: { minimum: 6 }
   validates :email, presence: true, length: { maximum: 255 },
   format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i },
   uniqueness: true
   has_secure_password
-  validates :password, presence: true, length: { minimum: 6 }
-
+  
   def task_count
     if tasks.loaded?
       tasks.size

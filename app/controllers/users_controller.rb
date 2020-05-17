@@ -20,7 +20,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    if User.where(admin: true).count == 0
+    if User.where(admin: true).count.zero?
       @user.admin = true
     end
     if @user.save
