@@ -1,5 +1,7 @@
 require 'rails_helper'
 RSpec.describe 'Tasks', type: :system do
+  before do
+  end
   describe "ユーザ登録のテスト" do
     before do
       visit new_user_path
@@ -9,7 +11,6 @@ RSpec.describe 'Tasks', type: :system do
       fill_in "Password confirmation", with: "aaaaaa"
       click_button "登録する"
     end
-
     context "最初のユーザーを登録したとき" do
       it "必ず管理者に設定されること" do
         expect(page).to have_content "Administrator"
@@ -18,7 +19,12 @@ RSpec.describe 'Tasks', type: :system do
         click_link "Admin Page"
         expect(page).to have_content 'Admin Page'
       end
-      it "管理者から新規ユーザーを登録できること" do
+      it "詳細画面に遷移できること" do
+        click_link "Admin Page"
+        click_link "Show"
+        expect(page).to have_content "Admin's Page"
+      end
+      it "管理者画面から新規ユーザーを登録できること" do
         click_link "Admin Page"
         click_link "New User"
         fill_in "Name", with: "normal02"
@@ -29,7 +35,6 @@ RSpec.describe 'Tasks', type: :system do
         expect(page).to have_content "normal02"
       end
     end
-
     context "2人目のユーザーを登録したとき" do
       before do
         visit new_user_path
@@ -46,6 +51,5 @@ RSpec.describe 'Tasks', type: :system do
         expect(current_path).to_not eq admin_users_path
       end
     end
-
   end
 end

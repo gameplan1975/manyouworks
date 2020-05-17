@@ -20,10 +20,6 @@ class Admin::UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    #最初の１人は管理者になる
-    if @user.id == 0
-      @user.admin = true
-    end
     if @user.save
       session[:user_id] = @user.id
       redirect_to "/admin/users", notice: 'User was successfully created.'

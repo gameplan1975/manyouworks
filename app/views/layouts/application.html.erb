@@ -16,7 +16,7 @@
       <% if current_user.admin? %>
         <%= "(Administrator) " %>
       <% end %> |
-      <%= link_to "Logout", session_path(current_user.id), method: :delete %>
+      <%= link_to "Log out", session_path(current_user.id), method: :delete %>
       <% if current_user.admin? %>
         | <%= link_to "Admin Page", admin_users_path %>
       <% end %>
@@ -24,7 +24,7 @@
     <% else %>
       <p>
       <%= link_to "Sign up", new_user_path %> |
-      <%= link_to "Login", new_session_path %>
+      <%= link_to "Log in", new_session_path %>
       </p>
     <% end %>
     <%= yield %>
