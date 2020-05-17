@@ -17,6 +17,9 @@
         <%= "(Administrator) " %>
       <% end %> |
       <%= link_to "Logout", session_path(current_user.id), method: :delete %>
+      <% if current_user.admin? %>
+        | <%= link_to "Admin Page", admin_users_path %>
+      <% end %>
       </p>
     <% else %>
       <p>

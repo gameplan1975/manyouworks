@@ -26,7 +26,7 @@ class Admin::UsersController < ApplicationController
     end
     if @user.save
       session[:user_id] = @user.id
-      redirect_to [:admin, @user], notice: 'User was successfully created.'
+      redirect_to "/admin/users", notice: 'User was successfully created.'
     else
       render :new
     end
@@ -34,7 +34,7 @@ class Admin::UsersController < ApplicationController
 
   def update
     if @user.update(user_params)
-      redirect_to [:admin, @user], notice: 'User was successfully updated.'
+      redirect_to admin_users_path, notice: 'User was successfully updated.'
     else
       render :edit
     end
@@ -43,7 +43,7 @@ class Admin::UsersController < ApplicationController
   def destroy
     admin_number = 1
     @user.destroy
-    redirect_to admin_users_url, notice: 'User was successfully destroyed.'
+    redirect_to admin_users_path, notice: 'User was successfully destroyed.'
   end
 
   private

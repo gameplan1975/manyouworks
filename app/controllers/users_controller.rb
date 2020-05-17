@@ -20,23 +20,18 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    #ユーザーが他にいなければ、Adminをfalseにできない
-    if User.count == 1
+    if User.where(admin: true).count == 0
       @user.admin = true
-    end  
+    end
     if @user.save
       session[:user_id] = @user.id
-      redirect_to @user, notice: 'User was successfully created.'
+      redirect_to tasks_path, notice: 'User was successfully created.'
     else
       render :new
     end
   end
 
   def update
-    #ユーザーが他にいなければ、自動的に管理者にする
-    if User.count == 0
-      @user.admin = true
-    end 
     if @user.update(user_params)
       redirect_to  { redirect_to [:admin, @user], notice: 'User was successfully updated.' }
     else
