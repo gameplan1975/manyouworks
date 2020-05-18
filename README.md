@@ -18,6 +18,8 @@ user table
 |id||
 |name|string|
 |admin|boolean|
+|email|string|
+|password_digest|string|
 
 task table
 |column_name|type|

@@ -1,4 +1,5 @@
 class TasksController < ApplicationController
+  before_action :check_login?
   before_action :set_task, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -18,6 +19,7 @@ class TasksController < ApplicationController
 
   def create
     @task = Task.new(task_params)
+    @task.user_id = current_user.id
 
     if @task.save
       redirect_to @task, notice: 'Task was successfully created.'
@@ -45,10 +47,16 @@ class TasksController < ApplicationController
     end
 
     def task_params
-      params.require(:task).permit(:name, :status, :label, :task_limit, :content, :created_at, :priority)
+      params.require(:task).permit(:name, :status, :label, :task_limit, :content, :created_at, :priority, :user_id)
     end
 
     def task_search_params
       params.fetch(:search, {}).permit(:name, :status)
+    end
+
+    def check_login?
+      unless current_user.presence
+        redirect_to new_session_path, notice: 'You should log in.'
+      end
     end
 end

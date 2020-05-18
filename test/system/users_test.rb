@@ -14,7 +14,6 @@ class UsersTest < ApplicationSystemTestCase
     visit users_url
     click_on "New User"
 
-    fill_in "Admin", with: @user.admin
     fill_in "Name", with: @user.name
     click_on "Create User"
 

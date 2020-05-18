@@ -1,6 +1,6 @@
-class UsersController < ApplicationController
+class Admin::UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :user_check, only:[:show, :edit, :destroy]
+  before_action :admin_user_check
 
   def index
     @users = User.all
@@ -15,17 +15,13 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
-  def edit
-  end
+  def edit; end
 
   def create
     @user = User.new(user_params)
-    if User.where(admin: true).count.zero?
-      @user.admin = true
-    end
     if @user.save
       session[:user_id] = @user.id
-      redirect_to tasks_path, notice: 'User was successfully created.'
+      redirect_to admin_users_path, notice: 'User was successfully created.'
     else
       render :new
     end
@@ -33,7 +29,7 @@ class UsersController < ApplicationController
 
   def update
     if @user.update(user_params)
-      redirect_to  { redirect_to [:admin, @user], notice: 'User was successfully updated.' }
+      redirect_to admin_users_path, notice: 'User was successfully updated.'
     else
       render :edit
     end
@@ -41,7 +37,7 @@ class UsersController < ApplicationController
 
   def destroy
     @user.destroy
-    redirect_to users_url, notice: 'User was successfully destroyed.'
+    redirect_to admin_users_path, notice: 'User was successfully destroyed.'
   end
 
   private
@@ -50,7 +46,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:name, :password, :password_confirmation, :email)
+    params.require(:user).permit(:name, :admin, :password, :password_confirmation, :email)
   end
 
   def task_params
@@ -61,9 +57,9 @@ class UsersController < ApplicationController
     params.fetch(:search, {}).permit(:name, :status)
   end
 
-  def user_check
-    if current_user.id != @user.id && current_user.admin == false
-      redirect_to users_url, notice: "You could not access this page."
+  def admin_user_check
+    if current_user == nil ||current_user.admin == false
+      redirect_to root_path, notice: "You are not administrator."
     end
   end
 end

@@ -29,6 +29,7 @@
   <thead>
     <tr>
       <th class = "priority-cell">Priority<%= link_to "▲", sort: "priority asc", class:"sort01" %><%= link_to "▼", sort: "priority desc", class:"sort02" %></th>
+      <th>User</th>
       <th>Name <%= linkage("name","asc") %><%= linkage("name","desc") %></th>
       <th>Status <%= linkage("status","asc") %><%= linkage("status","desc") %></th>
       <th>Label <%= linkage("label","asc") %><%= linkage("label","desc") %></th>
@@ -41,18 +42,21 @@
 
   <tbody>
     <% @tasks.each do |task| %>
-      <tr>
-        <td><%= task.priority %></td>
-        <td><%= task.name %></td>
-        <td><%= task.status %></td>
-        <td><%= task.label %></td>
-        <td><%= task.created_at.strftime("%Y-%m-%d") %></td>
-        <td><%= task.task_limit.strftime("%Y-%m-%d") %></td>
-        <td><%= task.content %></td>
-        <td><%= link_to 'Show', task %></td>
-        <td><%= link_to 'Edit', edit_task_path(task) %></td>
-        <td><%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+      <% if task.user_id == current_user.id %>
+        <tr>
+          <td><%= task.priority %></td>
+          <td><%= task.user.name %></td>
+          <td><%= task.name %></td>
+          <td><%= task.status %></td>
+          <td><%= task.label %></td>
+          <td><%= task.created_at.strftime("%Y-%m-%d") %></td>
+          <td><%= task.task_limit.strftime("%Y-%m-%d") %></td>
+          <td><%= task.content %></td>
+          <td><%= link_to 'Show', task %></td>
+          <td><%= link_to 'Edit', edit_task_path(task) %></td>
+          <td><%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
     <% end %>
   </tbody>
 </table>
