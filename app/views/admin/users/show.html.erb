@@ -26,9 +26,9 @@
       <%= f.submit "Search" %>
     </div>
   <% end %>
-  <h3>Label Search</h3>
   <%= form_with url: tasks_path, method: :get, local: true do |form| %>
     <%= form.select("label_id", Label.pluck(:title, :id), { include_blank: true }) %>
+    <%= form.label(:label_id) %>
     <%= form.submit 'Search', name: nil %>
     <%= link_to "Create New Label", new_label_path %>
   <% end %>

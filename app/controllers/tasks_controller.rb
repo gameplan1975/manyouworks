@@ -13,13 +13,13 @@ class TasksController < ApplicationController
       @tasks = @tasks.order(params[:sort]).page(params[:page]).per(5)
     end
 
-  def show, end
+  def show; end
 
   def new
     @task = Task.new
   end
 
-  def edit, end
+  def edit; end
 
   def create
     @task = Task.new(task_params)
