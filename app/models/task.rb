@@ -2,6 +2,8 @@ class Task < ApplicationRecord
   enum priority: { high: 0, middle: 1, low: 2, other:3 }
   validates :name, presence: true
   validates :content, presence: true
+  has_many :labelings, dependent: :destroy
+  has_many :labels, through: :labelings
   belongs_to :user
   
   scope :search, -> (search_params) do

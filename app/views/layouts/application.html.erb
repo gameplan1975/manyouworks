@@ -16,9 +16,12 @@
       <% if current_user.admin? %>
         <%= "(Administrator) " %>
       <% end %> |
-      <%= link_to "Log out", session_path(current_user.id), method: :delete %>
+      <%= link_to "Log out", session_path(current_user.id), method: :delete %> |
+      <%= link_to "My Page", user_path(current_user.id) %>  | 
+      <%= link_to "Create task", new_task_path %> |
+      <%= link_to "Create label", new_label_path %>
       <% if current_user.admin? %>
-        | <%= link_to "Admin Page", admin_users_path %>
+        || <%= link_to "Admin Page", admin_users_path %>
       <% end %>
       </p>
     <% else %>
@@ -27,6 +30,7 @@
       <%= link_to "Log in", new_session_path %>
       </p>
     <% end %>
+    <hr>
     <%= yield %>
   </body>
 </html>

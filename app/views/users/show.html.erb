@@ -10,14 +10,9 @@
   <strong>E-mail:</strong>
   <%= @user.email %>
 </p>
-<% if @user.admin == true %>
-  <%= link_to 'Go to Admin Page', admin_users_path %> |
-<% end %>
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'New Task', new_task_path %>
-<br><br>
+<h2><%= @user.name %>'s Tasks</h2>
 <!--ここから検索フォーム-->
-<div class="search-form">
+<div class="search-form"style="padding: 10px; margin-bottom: 10px; border: 1px dotted #333333; width: 300px" >
   <%= form_with(scope: :search, url: tasks_path, method: :get, local: true) do |f| %>
     <div class="field">
       <%= f.label(:name, Task.human_attribute_name(:name)) %>
@@ -35,20 +30,20 @@
 
 <!--ここからデータの表示-->
 <% def linkage(column, direction) %>
-<% arrow = "▲" %>
-<% if direction == "desc" %>
-<% arrow = "▼" %>
-<% end %>
+  <% arrow = "▲" %>
+  <% if direction == "desc" %>
+    <% arrow = "▼" %>
+  <% end %>
   <%= link_to arrow, sort: column + " " + direction %>
 <% end %>
-<table class="table" >
+
+<table class="table table-striped" >
   <thead>
     <tr>
       <th class = "priority-cell">Priority<%= link_to "▲", sort: "priority asc", class:"sort01" %><%= link_to "▼", sort: "priority desc", class:"sort02" %></th>
       <th>User</th>
       <th>Name <%= linkage("name","asc") %><%= linkage("name","desc") %></th>
       <th>Status <%= linkage("status","asc") %><%= linkage("status","desc") %></th>
-      <th>Label <%= linkage("label","asc") %><%= linkage("label","desc") %></th>
       <th>Created <%= linkage("created_at","asc") %><%= linkage("created_at","desc") %></th>
       <th>Limit <%= linkage("task_limit","asc") %><%= linkage("task_limit","desc") %></th>
       <th>Content <%= linkage("content","asc") %><%= linkage("content","desc") %></th>
@@ -64,7 +59,6 @@
           <td><%= task.user.name %></td>
           <td><%= task.name %></td>
           <td><%= task.status %></td>
-          <td><%= task.label %></td>
           <td><%= task.created_at.strftime("%Y-%m-%d") %></td>
           <td><%= task.task_limit.strftime("%Y-%m-%d") %></td>
           <td><%= task.content %></td>
@@ -77,3 +71,5 @@
   </tbody>
 </table>
 <%= paginate @tasks %>
+<%= link_to 'Edit', edit_user_path(@user) %> |
+<%= link_to 'New Task', new_task_path %>
