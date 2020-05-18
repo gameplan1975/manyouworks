@@ -4,18 +4,22 @@ class TasksController < ApplicationController
 
   def index
     @search_params = task_search_params
-    @tasks = Task.search(@search_params).order(params[:sort]).page(params[:page]).per(5)
-  end
+    @tasks = Task.all
+    if params[:label_id].present?
+      @tasks = @tasks.joins(:labels).where(labels: { id: params[:label_id] }) 
+    else
+      @tasks = Task.search(@search_params)
+    end
+      @tasks = @tasks.order(params[:sort]).page(params[:page]).per(5)
+    end
 
-  def show
-  end
+  def show, end
 
   def new
     @task = Task.new
   end
 
-  def edit
-  end
+  def edit, end
 
   def create
     @task = Task.new(task_params)
@@ -42,22 +46,22 @@ class TasksController < ApplicationController
   end
     
   private
-    def set_task
-      @task = Task.find(params[:id])
-    end
+  def set_task
+    @task = Task.find(params[:id])
+  end
 
-    def task_params
-      params.require(:task).permit(:name, :status, :task_limit, :content, :created_at, :priority, :user_id,
-      { label_ids: [] })
-    end
+  def task_params
+    params.require(:task).permit(:name, :status, :task_limit, :content, :created_at, :priority, :user_id,
+    { label_ids: [] })
+  end
 
-    def task_search_params
-      params.fetch(:search, {}).permit(:name, :status)
-    end
+  def task_search_params
+    params.fetch(:search, {}).permit(:name, :status, :label_id)
+  end
 
-    def check_login?
-      unless current_user.presence
-        redirect_to new_session_path, notice: 'You should log in.'
-      end
+  def check_login?
+    unless current_user.presence
+      redirect_to new_session_path, notice: 'You should log in.'
     end
+  end
 end
