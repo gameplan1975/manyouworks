@@ -10,12 +10,9 @@
   <strong>E-mail:</strong>
   <%= @user.email %>
 </p>
-<%= link_to 'Edit', edit_admin_user_path(@user) %> |
-<%= link_to 'Back', admin_users_path %> |
-<%= link_to 'New Task', new_task_path %>
-<br><br>
 <!--ここから検索フォーム-->
-<div class="search-form">
+<div class="search-form" style="padding: 10px; margin-bottom: 10px; border: 1px dotted #333333; width: 300px">
+  <h3>Task Search</h3>
   <%= form_with(scope: :search, url: tasks_path, method: :get, local: true) do |f| %>
     <div class="field">
       <%= f.label(:name, Task.human_attribute_name(:name)) %>
@@ -29,17 +26,24 @@
       <%= f.submit "Search" %>
     </div>
   <% end %>
+  <%= form_with url: tasks_path, method: :get, local: true do |form| %>
+    <%= form.select("label_id", Label.pluck(:title, :id), { include_blank: true }) %>
+    <%= form.label(:label_id) %>
+    <%= form.submit 'Search', name: nil %>
+    <%= link_to "Create New Label", new_label_path %>
+  <% end %>
 </div>
 
 <!--ここからデータの表示-->
 <% def linkage(column, direction) %>
-<% arrow = "▲" %>
-<% if direction == "desc" %>
-<% arrow = "▼" %>
-<% end %>
+  <% arrow = "▲" %>
+  <% if direction == "desc" %>
+    <% arrow = "▼" %>
+  <% end %>
   <%= link_to arrow, sort: column + " " + direction %>
 <% end %>
-<table class="table" >
+
+<table class="table table-striped" >
   <thead>
     <tr>
       <th class = "priority-cell">Priority<%= link_to "▲", sort: "priority asc", class:"sort01" %><%= link_to "▼", sort: "priority desc", class:"sort02" %></th>
@@ -75,3 +79,6 @@
   </tbody>
 </table>
 <%= paginate @tasks %>
+<%= link_to 'Edit', edit_admin_user_path(@user) %> |
+<%= link_to 'Back', admin_users_path %> |
+<%= link_to 'New Task', new_task_path %>

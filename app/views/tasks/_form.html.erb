@@ -17,11 +17,6 @@
   </div>
 
   <div class="field">
-    <%= form.label :label %>
-    <%= form.select :label,["labelA","labelB","labelC"] %>
-  </div>
-
-  <div class="field">
     <%= form.label :content %>
     <%= form.text_field :content %>
   </div>
@@ -38,10 +33,16 @@
 
   <div class="field">
     <%= form.label :task_limit %>
-    <%= form.date_field :task_limit, value: Time.now.strftime("%Y年%m月%d日"),
-                                  class: 'form-control'%><br>
-
+    <%= form.date_field :task_limit, value: Time.now.strftime("%Y年%m月%d日") %>
   </div>
+  
+  <div class="field">
+    <h3>Label</h3>
+    <label class="checkbox-inline">
+      <%= form.collection_check_boxes(:label_ids, Label.all, :id, :title) %>
+    </label>
+  </div>
+  <br>
 
   <div class="actions">
     <%= form.submit %>

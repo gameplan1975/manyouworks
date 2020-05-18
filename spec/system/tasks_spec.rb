@@ -1,8 +1,6 @@
 require 'rails_helper'
 RSpec.describe 'Tasks', type: :system do
-  before do
-  end
-  describe "ユーザ登録のテスト" do
+  describe "ラベル機能のテスト" do
     before do
       visit new_user_path
       fill_in "Name", with: "Admin"
@@ -10,45 +8,51 @@ RSpec.describe 'Tasks', type: :system do
       fill_in "Password", with: "aaaaaa"
       fill_in "Password confirmation", with: "aaaaaa"
       click_button "登録する"
+      visit new_label_path
+      fill_in "Title", with: "LABEL01"
+      click_button "登録する"
+      visit new_label_path
+      fill_in "Title", with: "LABEL02"
+      click_button "登録する"
     end
-    context "最初のユーザーを登録したとき" do
-      it "必ず管理者に設定されること" do
-        expect(page).to have_content "Administrator"
+    context "ラベル作成について" do
+      it "ラベルを作成できること" do
+        expect(page).to have_content "LABEL02"
       end
-      it "管理者画面に遷移できること" do
-        click_link "Admin Page"
-        expect(page).to have_content 'Admin Page'
-      end
-      it "詳細画面に遷移できること" do
-        click_link "Admin Page"
-        click_link "Show"
-        expect(page).to have_content "Admin's Page"
-      end
-      it "管理者画面から新規ユーザーを登録できること" do
-        click_link "Admin Page"
-        click_link "New User"
-        fill_in "Name", with: "normal02"
-        fill_in "Email", with: "ccc@ccc.ccc"
-        fill_in "Password", with: "aaaaaa"
-        fill_in "Password confirmation", with: "aaaaaa"
+      it "タスク作成時に、作成したラベルを登録できること" do
+        visit new_task_path
+        fill_in "Name", with: "Task01"
+        fill_in "Content", with: "content01"
+        fill_in "Task limit", with:"05-05-2020"
+        check 'LABEL01'
         click_button "登録する"
-        expect(page).to have_content "normal02"
+        expect(page).to have_content "LABEL01"
       end
     end
-    context "2人目のユーザーを登録したとき" do
+    context "タスク検索したとき" do
       before do
-        visit new_user_path
-        fill_in "Name", with: "normal"
-        fill_in "Email", with: "bbb@bbb.bbb"
-        fill_in "Password", with: "aaaaaa"
-        fill_in "Password confirmation", with: "aaaaaa"
+        visit new_task_url
+        fill_in "Name", with: "Task01"
+        fill_in "Content", with: "content01"
+        fill_in "Task limit", with:"05-05-2020"
+        check 'LABEL01'
         click_button "登録する"
+        visit new_task_url
+        fill_in "Name", with: "Task02"
+        fill_in "Content", with: "content02"
+        fill_in "Task limit", with:"05-05-2020"
+        check 'LABEL02'
+        click_button "登録する"
+        visit root_path
+        within "search-cell" 
+        select "LABEL01", from:"Label"
+        click_button "search"
       end
-      it "管理者に設定されないこと" do   
-        expect(page).to_not have_content "Administrator"
+      it "指定したラベルを持つタスクが表示されること" do
+        expect(page).to have_content "Task01"
       end
-      it "管理者以外が管理画面にアクセスできないこと" do   
-        expect(current_path).to_not eq admin_users_path
+      it "指定していないラベルを持つタスクが表示されないこと" do
+        expect(page).to_not have_content "Task02"
       end
     end
   end
