@@ -7,9 +7,8 @@
 等があります。
 
 - 以下は現在のテーブルとカラムの内容です。
-  - ラベルの仕様がよくわからないので現在はtaskのカラム（label)として設定しています。
-  - 仕様が膨らんだときは、labelを別テーブルとして再設定。
   - step3にてtask tableに優先順（priority)を追加
+  - ラベルの仕様確定につきtable追加
 
 
 user table
@@ -31,3 +30,16 @@ task table
 |priority|integer|
 |label|string|
 |limit|date|
+
+label table
+|column_name|type|
+|:---:|:---:|
+|id||
+|title|string|
+
+labeling table
+|column_name|type|
+|:---:|:---:|
+|id||
+|label_id|foregin_key|
+|task_id|foregin_key|
